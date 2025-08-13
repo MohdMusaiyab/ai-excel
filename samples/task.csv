@@ -1,0 +1,14 @@
+TaskID,TaskName,Category,Duration,RequiredSkills,PreferredPhases,MaxConcurrent
+T001,Frontend Dashboard Development,Development,3,"JavaScript,React","[1,2,3]",2
+T002,API Gateway Implementation,Development,4,"Python,Django","[2,3,4]",1
+T003,Database Schema Design,Architecture,2,"MySQL,PostgreSQL","[1,2]",1
+T004,Mobile App MVP,Development,5,"React Native,Swift","[1,2,3,4,5]",1
+T005,User Authentication System,Development,3,"Node.js,JWT,Redis","[2,3,4]",2
+T006,Data Analytics Dashboard,Analytics,4,"Python,TensorFlow,MongoDB","[3,4,5]",1
+T007,Website Redesign,Design,2,"UI/UX,Figma,CSS","[1,2,3]",2
+T008,Automated Testing Suite,Testing,3,"Selenium,Jest,Cypress","[2,3,4]",1
+T009,AI Recommendation Engine,AI/ML,6,"Machine Learning,Python,PyTorch","[3,4,5]",1
+T010,Bug Fix Sprint,Maintenance,1,"JavaScript,Python,Java","[1,2,3,4,5]",3
+T011,Cloud Infrastructure Setup,Infrastructure,3,"DevOps,Kubernetes,AWS","[2,3,4]",1
+T012,Performance Optimization,Optimization,2,"JavaScript,Python,Database","[3,4,5]",2
+T013,Security Audit,Security,2,"Cybersecurity,Penetration Testing","[1,2,3]",1

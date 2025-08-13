@@ -19,6 +19,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "papaparse": "^5.4.1",
+    "@types/papaparse": "^5.3.14",
+    "xlsx": "^0.18.5",
+    "@google/generative-ai": "^0.2.1"
   }
 }
