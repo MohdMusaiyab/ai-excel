@@ -35,19 +35,19 @@ export default function Home() {
   
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
-    console.log('Loading API key from localStorage:', savedApiKey ? 'Found' : 'Not found'); // Debug log
+    console.log('Loading API key from localStorage:', savedApiKey ? 'Found' : 'Not found'); 
     if (savedApiKey) {
       setApiKey(savedApiKey);
       aiService.initializeWithKey(savedApiKey);
-      console.log('AI service initialized with saved key'); // Debug log
+      console.log('AI service initialized with saved key'); 
     } else {
       
       const envApiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-      console.log('Checking environment API key:', envApiKey ? 'Found' : 'Not found'); // Debug log
+      console.log('Checking environment API key:', envApiKey ? 'Found' : 'Not found'); 
       if (envApiKey) {
         setApiKey(envApiKey);
         aiService.initializeWithKey(envApiKey);
-        console.log('AI service initialized with env key'); // Debug log
+        console.log('AI service initialized with env key'); 
       }
     }
   }, []);
@@ -56,6 +56,8 @@ export default function Home() {
   useEffect(() => {
     const sampleData = dataService.generateSampleData();
     setClients(sampleData.clients);
+
+
     setWorkers(sampleData.workers);
     setTasks(sampleData.tasks);
   }, []);
@@ -107,7 +109,6 @@ export default function Home() {
           break;
       }
       
-      // Clear search results for this entity
       setSearchResults(prev => ({ ...prev, [entityType]: undefined }));
     } catch (error: any) {
       if (error.message?.includes('requires a valid Gemini API key')) {
