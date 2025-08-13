@@ -26,9 +26,9 @@ export class AIService {
   }
 
   private throwIfNotConfigured(featureName: string) {
-    console.log('Checking AI configuration for:', featureName); // Debug log
-    console.log('API Key exists:', !!this.apiKey); // Debug log
-    console.log('Model exists:', !!this.model); // Debug log
+    console.log('Checking AI configuration for:', featureName); 
+    console.log('API Key exists:', !!this.apiKey); 
+    console.log('Model exists:', !!this.model); 
     
     if (!this.isConfigured()) {
       throw new Error(`AI feature "${featureName}" requires a valid Gemini API key. Please configure your API key in settings.`);
@@ -37,7 +37,7 @@ export class AIService {
 
   async parseAndMapHeaders(headers: string[], expectedFields: string[], entityType: string): Promise<{ [key: string]: string }> {
     if (!this.isConfigured()) {
-      // Fallback to simple matching when no API key
+      
       const mapping: { [key: string]: string } = {};
       headers.forEach(header => {
         const match = expectedFields.find(field => 
@@ -70,7 +70,7 @@ export class AIService {
       try {
         return JSON.parse(text.replace(/```json\n?|\n?```/g, ''));
       } catch {
-        // Fallback to exact matching
+        
         const mapping: { [key: string]: string } = {};
         headers.forEach(header => {
           const match = expectedFields.find(field => 
@@ -84,7 +84,7 @@ export class AIService {
       }
     } catch (error) {
       console.error('AI mapping failed, using fallback:', error);
-      // Fallback mapping
+      
       const mapping: { [key: string]: string } = {};
       headers.forEach(header => {
         mapping[header] = header;
@@ -97,7 +97,7 @@ export class AIService {
     this.throwIfNotConfigured('Data Validation');
     
     try {
-      const sampleData = data.slice(0, 5); // Only send sample for validation
+      const sampleData = data.slice(0, 5); 
       const prompt = `
         Analyze this ${entityType} data and identify validation errors:
         
@@ -131,7 +131,7 @@ export class AIService {
 
   async searchData(query: string, data: any[], entityType: string): Promise<any[]> {
     if (!this.isConfigured()) {
-      // Fallback to simple text search when no API key
+
       return data.filter(item => 
         JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
       );
@@ -159,7 +159,7 @@ export class AIService {
         const indices = JSON.parse(text.replace(/```json\n?|\n?```/g, ''));
         return data.filter((_, index) => indices.includes(index));
       } catch {
-        // Fallback search
+        
         return data.filter(item => 
           JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
         );
@@ -218,7 +218,7 @@ export class AIService {
   }
 
   async suggestCorrections(data: any[], errors: ValidationError[], entityType: string): Promise<{ [key: string]: any }> {
-    console.log('suggestCorrections called with:', { dataLength: data.length, errorsLength: errors.length, entityType }); // Debug log
+    console.log('suggestCorrections called with:', { dataLength: data.length, errorsLength: errors.length, entityType }); 
     this.throwIfNotConfigured('AI Correction Suggestions');
     
     try {
@@ -236,20 +236,20 @@ export class AIService {
         }
       `;
 
-      console.log('Sending prompt to AI:', prompt); // Debug log
+      console.log('Sending prompt to AI:', prompt); 
 
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
       
-      console.log('Raw AI response:', text); // Debug log
+      console.log('Raw AI response:', text); 
       
       try {
         const parsed = JSON.parse(text.replace(/```json\n?|\n?```/g, ''));
-        console.log('Parsed AI response:', parsed); // Debug log
+        console.log('Parsed AI response:', parsed); 
         return parsed;
       } catch (parseError) {
-        console.error('Failed to parse AI response:', parseError); // Debug log
+        console.error('Failed to parse AI response:', parseError); 
         return {};
       }
     } catch (error) {

@@ -7,7 +7,7 @@ export class ValidationService {
     const taskIds = new Set(tasks.map(t => t.TaskID));
 
     clients.forEach((client, index) => {
-      // Check duplicate IDs
+     
       if (clientIds.has(client.ClientID)) {
         errors.push({
           type: 'duplicate_id',
@@ -20,7 +20,7 @@ export class ValidationService {
       }
       clientIds.add(client.ClientID);
 
-      // Check required fields
+     
       if (!client.ClientID) {
         errors.push({
           type: 'missing_required',
@@ -43,7 +43,7 @@ export class ValidationService {
         });
       }
 
-      // Check priority level range
+      
       if (client.PriorityLevel < 1 || client.PriorityLevel > 5) {
         errors.push({
           type: 'out_of_range',
@@ -55,7 +55,7 @@ export class ValidationService {
         });
       }
 
-      // Check requested task IDs exist
+     
       if (client.RequestedTaskIDs) {
         const requestedIds = client.RequestedTaskIDs.split(',').map(id => id.trim());
         requestedIds.forEach(taskId => {
@@ -72,7 +72,7 @@ export class ValidationService {
         });
       }
 
-      // Validate JSON
+     
       if (client.AttributesJSON) {
         try {
           JSON.parse(client.AttributesJSON);
@@ -97,7 +97,7 @@ export class ValidationService {
     const workerIds = new Set<string>();
 
     workers.forEach((worker, index) => {
-      // Check duplicate IDs
+     
       if (workerIds.has(worker.WorkerID)) {
         errors.push({
           type: 'duplicate_id',
@@ -110,7 +110,7 @@ export class ValidationService {
       }
       workerIds.add(worker.WorkerID);
 
-      // Check required fields
+      
       if (!worker.WorkerID) {
         errors.push({
           type: 'missing_required',
@@ -133,7 +133,7 @@ export class ValidationService {
         });
       }
 
-      // Validate available slots
+      
       if (worker.AvailableSlots) {
         try {
           const slots = JSON.parse(worker.AvailableSlots);
@@ -161,7 +161,7 @@ export class ValidationService {
             });
           }
         } catch {
-          // Try as comma-separated string
+        
           const slotStrings = worker.AvailableSlots.split(',').map(s => s.trim());
           slotStrings.forEach(slotStr => {
             const slot = parseInt(slotStr);
@@ -179,7 +179,7 @@ export class ValidationService {
         }
       }
 
-      // Check max load per phase
+     
       if (worker.MaxLoadPerPhase < 1) {
         errors.push({
           type: 'out_of_range',
@@ -200,7 +200,7 @@ export class ValidationService {
     const taskIds = new Set<string>();
 
     tasks.forEach((task, index) => {
-      // Check duplicate IDs
+   
       if (taskIds.has(task.TaskID)) {
         errors.push({
           type: 'duplicate_id',
@@ -213,7 +213,7 @@ export class ValidationService {
       }
       taskIds.add(task.TaskID);
 
-      // Check required fields
+      
       if (!task.TaskID) {
         errors.push({
           type: 'missing_required',
@@ -236,7 +236,7 @@ export class ValidationService {
         });
       }
 
-      // Check duration
+     
       if (task.Duration < 1) {
         errors.push({
           type: 'out_of_range',
@@ -248,7 +248,7 @@ export class ValidationService {
         });
       }
 
-      // Check max concurrent
+     
       if (task.MaxConcurrent < 1) {
         errors.push({
           type: 'out_of_range',
@@ -260,16 +260,15 @@ export class ValidationService {
         });
       }
 
-      // Validate preferred phases
       if (task.PreferredPhases) {
         try {
-          // Try parsing as JSON array first
+         
           const phases = JSON.parse(task.PreferredPhases);
           if (!Array.isArray(phases)) {
             throw new Error('Not an array');
           }
         } catch {
-          // Try parsing as range (e.g., "1-3")
+          
           if (task.PreferredPhases.includes('-')) {
             const [start, end] = task.PreferredPhases.split('-').map(s => parseInt(s.trim()));
             if (isNaN(start) || isNaN(end) || start > end) {
@@ -283,7 +282,7 @@ export class ValidationService {
               });
             }
           } else {
-            // Try as comma-separated
+            
             const phases = task.PreferredPhases.split(',').map(p => parseInt(p.trim()));
             if (phases.some(p => isNaN(p) || p < 1)) {
               errors.push({
@@ -306,7 +305,6 @@ export class ValidationService {
   validateCrossReferences(clients: Client[], workers: Worker[], tasks: Task[]): ValidationError[] {
     const errors: ValidationError[] = [];
     
-    // Get all skills from workers
     const allWorkerSkills = new Set<string>();
     workers.forEach(worker => {
       if (worker.Skills) {
@@ -316,7 +314,7 @@ export class ValidationService {
       }
     });
 
-    // Check if all required skills are covered
+
     tasks.forEach((task, index) => {
       if (task.RequiredSkills) {
         const requiredSkills = task.RequiredSkills.split(',').map(s => s.trim().toLowerCase());

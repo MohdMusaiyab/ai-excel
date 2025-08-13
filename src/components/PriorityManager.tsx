@@ -19,7 +19,7 @@ const defaultPriorities: Priority[] = [
 export default function PriorityManager({ priorities, onPrioritiesChange }: PriorityManagerProps) {
   const [activePreset, setActivePreset] = useState<string>('custom');
 
-  // Initialize with default priorities if empty
+  
   if (priorities.length === 0) {
     onPrioritiesChange(defaultPriorities);
   }

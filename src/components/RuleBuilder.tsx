@@ -76,7 +76,7 @@ export default function RuleBuilder({ rules, onRulesChange, clients, workers, ta
 
     addRule(rule);
     
-    // Reset form
+    
     setSelectedTasks([]);
     setSelectedWorkers([]);
     setRuleParameters({});
@@ -97,7 +97,7 @@ export default function RuleBuilder({ rules, onRulesChange, clients, workers, ta
     } catch (error) {
       console.error('Error processing natural language rule:', error);
       
-      // Check if it's an API key error
+      
       if (error instanceof Error && error.message?.includes('requires a valid Gemini API key')) {
         if (onAIError) {
           onAIError(error);

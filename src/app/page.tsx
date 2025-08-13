@@ -16,23 +16,23 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'data' | 'rules' | 'priorities' | 'settings'>('data');
   const [activeDataTab, setActiveDataTab] = useState<EntityType>('clients');
   
-  // API Key Management
+  
   const [apiKey, setApiKey] = useState<string | null>(null);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
 
-  // Data states
+  
   const [clients, setClients] = useState<Client[]>([]);
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   
-  // UI states
+  
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
   const [rules, setRules] = useState<Rule[]>([]);
   const [priorities, setPriorities] = useState<Priority[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [searchResults, setSearchResults] = useState<{ [key in EntityType]?: any[] }>({});
 
-  // Load API key from localStorage on mount
+  
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
     console.log('Loading API key from localStorage:', savedApiKey ? 'Found' : 'Not found'); // Debug log
@@ -41,7 +41,7 @@ export default function Home() {
       aiService.initializeWithKey(savedApiKey);
       console.log('AI service initialized with saved key'); // Debug log
     } else {
-      // Try to use environment variable
+      
       const envApiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
       console.log('Checking environment API key:', envApiKey ? 'Found' : 'Not found'); // Debug log
       if (envApiKey) {
@@ -52,7 +52,7 @@ export default function Home() {
     }
   }, []);
 
-  // Load sample data on mount
+  
   useEffect(() => {
     const sampleData = dataService.generateSampleData();
     setClients(sampleData.clients);
@@ -60,7 +60,7 @@ export default function Home() {
     setTasks(sampleData.tasks);
   }, []);
 
-  // Run validation when data changes
+ 
   useEffect(() => {
     if (clients.length > 0 || workers.length > 0 || tasks.length > 0) {
       const errors = validationService.validateAll(clients, workers, tasks);
@@ -180,12 +180,12 @@ export default function Home() {
       return;
     }
 
-    // Export data files
+    
     dataService.exportToCSV(clients, 'clients.csv');
     dataService.exportToCSV(workers, 'workers.csv');
     dataService.exportToCSV(tasks, 'tasks.csv');
     
-    // Export rules configuration
+    
     dataService.exportRulesToJSON(rules, priorities);
     
     alert('Files exported successfully! Check your downloads folder.');

@@ -27,18 +27,18 @@ export class DataService {
       throw new Error('File appears to be empty');
     }
 
-    // Get headers and data
+   
     const headers = rawData[0];
     const dataRows = rawData.slice(1);
 
-    // Use AI to map headers to expected fields
+    
     const headerMapping = await aiService.parseAndMapHeaders(
       headers, 
       this.expectedFields[entityType], 
       entityType
     );
 
-    // Convert to objects with mapped headers
+   
     const mappedData = dataRows.map(row => {
       const obj: any = {};
       headers.forEach((header, index) => {
@@ -46,7 +46,7 @@ export class DataService {
         obj[mappedField] = row[index] || '';
       });
 
-      // Type conversion based on entity type
+    
       if (entityType === 'clients') {
         obj.PriorityLevel = parseInt(obj.PriorityLevel) || 1;
       } else if (entityType === 'workers') {

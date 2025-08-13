@@ -24,7 +24,7 @@ export default function ApiKeyManager({ onApiKeySet, currentApiKey }: ApiKeyMana
 
     setIsValidating(true);
     try {
-      // Basic validation - check if it looks like a valid API key
+      
       if (!apiKey.startsWith('AIza') || apiKey.length < 30) {
         alert('Invalid API key format. Gemini API keys should start with "AIza" and be longer than 30 characters.');
         setIsValidating(false);

@@ -31,7 +31,7 @@ export default function SearchComponent({ onSearch, data, entityType, onClearSea
     } catch (error) {
       console.error('Search error:', error);
       
-      // Check if it's an API key error
+      
       if (error instanceof Error && error.message?.includes('requires a valid Gemini API key')) {
         if (onError) {
           onError(error);
@@ -39,7 +39,7 @@ export default function SearchComponent({ onSearch, data, entityType, onClearSea
         }
       }
       
-      // Fallback to simple text search
+     
       const results = data.filter(item => 
         JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
       );
@@ -119,7 +119,7 @@ export default function SearchComponent({ onSearch, data, entityType, onClearSea
               key={index}
               onClick={() => {
                 setQuery(example);
-                // Auto-search after setting example
+                
                 setTimeout(() => handleSearch(), 100);
               }}
               className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs border"

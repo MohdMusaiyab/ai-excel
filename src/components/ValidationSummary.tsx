@@ -30,8 +30,8 @@ export default function ValidationSummary({ errors, data, onApplyFix, onAIError 
 
   const handleGetSuggestion = async (error: ValidationError) => {
     const errorKey = `${error.entity}_${error.row}_${error.column}`;
-    console.log('AI Fix button clicked for error:', error); // Debug log
-    console.log('Error key:', errorKey); // Debug log
+    console.log('AI Fix button clicked for error:', error); 
+    console.log('Error key:', errorKey); 
     
     setIsGettingSuggestion(errorKey);
     
@@ -41,18 +41,18 @@ export default function ValidationSummary({ errors, data, onApplyFix, onAIError 
       else if (error.entity === 'workers') entityData = data.workers;
       else if (error.entity === 'tasks') entityData = data.tasks;
 
-      console.log('Entity data for AI:', entityData.slice(0, 2)); // Debug log
-      console.log('Calling AI service...'); // Debug log
+      console.log('Entity data for AI:', entityData.slice(0, 2));
+      console.log('Calling AI service...'); 
 
       const suggestions = await aiService.suggestCorrections(entityData, [error], error.entity || 'unknown');
-      console.log('AI Suggestions received:', suggestions); // Debug log
-      console.log('Error details:', { row: error.row, column: error.column, entity: error.entity }); // Debug log
+      console.log('AI Suggestions received:', suggestions);
+      console.log('Error details:', { row: error.row, column: error.column, entity: error.entity }); 
       setSuggestions(prev => ({ ...prev, [errorKey]: suggestions }));
       setShowSuggestions(prev => ({ ...prev, [errorKey]: true }));
     } catch (err) {
       console.error('Failed to get AI suggestion:', err);
       
-      // Check if it's an API key error
+    
       if (err instanceof Error && err.message?.includes('requires a valid Gemini API key')) {
         if (onAIError) {
           onAIError(err);
@@ -67,26 +67,26 @@ export default function ValidationSummary({ errors, data, onApplyFix, onAIError 
   };
 
   const handleApplySuggestion = (error: ValidationError, suggestion: any) => {
-    console.log('Applying suggestion:', { error, suggestion }); // Debug log
+    console.log('Applying suggestion:', { error, suggestion }); 
     
     if (error.row !== undefined && error.column && error.entity) {
       const field = error.column;
       const rowKey = error.row.toString();
       const rowSuggestions = suggestion[rowKey];
       
-      console.log('Row suggestions:', rowSuggestions); // Debug log
-      console.log('Looking for field:', field); // Debug log
+      console.log('Row suggestions:', rowSuggestions); 
+      console.log('Looking for field:', field); 
       
       const value = rowSuggestions && rowSuggestions[field];
-      console.log('Suggested value:', value); // Debug log
+      console.log('Suggested value:', value); 
       
       if (value !== undefined) {
-        console.log('Applying fix:', { entity: error.entity, row: error.row, field, value }); // Debug log
+        console.log('Applying fix:', { entity: error.entity, row: error.row, field, value }); 
         onApplyFix(error.entity, error.row, field, value);
         const errorKey = `${error.entity}_${error.row}_${error.column}`;
         setShowSuggestions(prev => ({ ...prev, [errorKey]: false }));
       } else {
-        console.log('No suggestion found for field:', field); // Debug log
+        console.log('No suggestion found for field:', field); 
         alert('No suggestion available for this field.');
       }
     }
